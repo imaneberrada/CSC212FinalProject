@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import me.jjfoley.gfx.GFX;
 
 public class World extends GFX {
-	
+	 
 	public String fileName = "src/main/Images/SpaceInvaders.png";
 	//ImagePanel class
 	public class ImagePanel extends JPanel {
