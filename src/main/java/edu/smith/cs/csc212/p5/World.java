@@ -1,5 +1,5 @@
 package edu.smith.cs.csc212.p5;
-   
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
