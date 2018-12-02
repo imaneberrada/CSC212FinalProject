@@ -7,7 +7,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -21,9 +23,8 @@ public class World extends GFX {
 	public String fileName = "src/main/Images/SpaceInvaders.png";
 	
 	Player Player = new Player();
-	//Bullet Bullet = new Bullet();
+	
 	List<Bullet> bullets = new ArrayList<Bullet>();
-	List<Bullet> deletedBullets = new ArrayList<Bullet>();
 	
 	//ImagePanel class
 	public class ImagePanel extends JPanel {
@@ -68,31 +69,15 @@ public class World extends GFX {
 		boolean shoot = this.processKey(KeyEvent.VK_SPACE) || this.processKey(KeyEvent.VK_UP) ;//|| (this.processKey(MouseEvent.CLICK) );//&& this.processKey(KeyEvent.KEY_RELEASED));
 		
 		
-		
-		//Bullet.shot = shoot;
-		
-		//bullets.add(Bullet);
+	
 		if (shoot) {
 			System.out.println("shooting");
-			Bullet Bullet1 = new Bullet();
+			Bullet Bullet1 = new Bullet(Player.x);
 			System.out.println("new bullet");
-			Bullet1.time = 0;
 			Bullet1.shot = shoot;
 			bullets.add(Bullet1);
 		}
-		
-		for (Bullet Bullet1: bullets) {
-			
-			if (Bullet1.time == 0) {
-				Bullet1.x = Player.x;
-			}
-			System.out.println("time is: " + Bullet1.time);
-			Bullet1.time++;
-			
-		}
-	}
-
-	
+	}	
 	
 	@Override
 	public void draw(Graphics2D g) {
@@ -101,15 +86,25 @@ public class World extends GFX {
 		
 		Player.draw(g);
 		
-		for (Bullet Bullet1: bullets) {
-			System.out.println("time: " + Bullet1.time);
-			if (Bullet1.y <= 0) {
-				deletedBullets.add(Bullet1);
+		for ( Bullet Bullet1 :  bullets ) {
+				Bullet1.draw(g);
+				
+				while(true) {
+					
+			    	Bullet1.y -= 10 ;
+			    	
+			    	if (Bullet1.y >=0 ) {
+			    		//shot = false;
+			    		break;
+			    	}
+			    	
+			    	
+			    }
 			}
-			Bullet1.draw(g);
+			
 		}
 		
-		for(Bullet Bullet1: deletedBullets) {
+		/*for(Bullet Bullet1: deletedBullets) {
 			bullets.remove(Bullet1);
 		}
 		
@@ -121,7 +116,7 @@ public class World extends GFX {
 			deletedBullets.remove(bullet);
 		
 		
-	}
+	}*/
 
 }
-}
+

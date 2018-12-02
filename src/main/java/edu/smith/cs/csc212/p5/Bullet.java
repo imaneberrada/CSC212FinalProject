@@ -14,7 +14,7 @@ import me.jjfoley.gfx.GFX;
  */
 public class Bullet extends GFX {
 	public int x = 250;
-	public int y = 0;
+	public int y = 423;
 	
 	//public int[] xPoints = {x+20,x+30,x+40,x+20};
 	public int[] yPoints = {y-20,y-40,y-20,y-20};
@@ -23,8 +23,8 @@ public class Bullet extends GFX {
 	
 	public int time;
 	
-	public Bullet() {
-		this.x = x;
+	public Bullet(int startingX) {
+		this.x = startingX;
 		this.y = y;
 		this.shot = shot;
 		//this.xPoints = xPoints;
@@ -57,21 +57,8 @@ public class Bullet extends GFX {
 		g.drawString(".", x+27, y-30);
 		g.drawString(".", x+27, y-37);
 		
-		if(shot) {
-			y = 423;
-		} 
 		
-		while(true) {
-			
-	    	y -= 10 ;
-	    	
-	    	if (y >=0 ) {
-	    		//shot = false;
-	    		break;
-	    	}
-	    	
-	    	
-	    }
+		
 	}
 
 	
