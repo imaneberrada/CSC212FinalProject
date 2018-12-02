@@ -12,7 +12,7 @@ public class Player extends GFX {
 	public Player() {
 		// TODO Auto-generated constructor stub
 	}
-
+ 
 	@Override
 	public void draw(Graphics2D g) {
 		// TODO When shooting from player, start at x+30, y-20
