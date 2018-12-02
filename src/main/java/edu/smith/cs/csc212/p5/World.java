@@ -25,6 +25,7 @@ public class World extends GFX {
 	Player Player = new Player();
 	
 	List<Bullet> bullets = new ArrayList<Bullet>();
+	List<Alien> aliens = new ArrayList<Alien>();
 	
 	//ImagePanel class
 	public class ImagePanel extends JPanel {
@@ -100,23 +101,19 @@ public class World extends GFX {
 			    	
 			    	
 			    }
+		}
+		
+		for ( int x = 0; x < 5; x++ ) {
+			for ( int y = 0; y <5; y++ ) {
+				Alien Alien1 = new Alien(x, y);
+				aliens.add(Alien1);
 			}
+		}
+		
+		for ( Alien Alien1 : aliens ) {
+			Alien1.draw(g);
+		}
 			
-		}
-		
-		/*for(Bullet Bullet1: deletedBullets) {
-			bullets.remove(Bullet1);
-		}
-		
-		while (true) {
-			if (deletedBullets.size() ==0) {
-				break; 	
-			}
-			Bullet bullet = deletedBullets.get(0);
-			deletedBullets.remove(bullet);
-		
-		
-	}*/
-
+	}
 }
 

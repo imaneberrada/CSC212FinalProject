@@ -12,11 +12,11 @@ public class Alien extends GFX {
 	public int y;
 	public boolean shot = false;
 	
-	public Alien() {
-		this.row = row; 
+	public Alien(int row, int column ) {
+		this.row = row;
 		this.column = column;
-		this.x = x;
-		this.y = y;
+		this.x = column*70;
+		this.y = row*50;
 		this.shot = shot;
 		
 	}
@@ -24,8 +24,6 @@ public class Alien extends GFX {
 	@Override
 	public void draw(Graphics2D g) {
 		if (( row == 1 || row == 2 ) && ( shot == false ) ) {
-			g.setColor(Color.black);
-		    g.fillRect(0,0,getWidth(), getHeight());
 		    g.setColor(Color.white);
 		    g.drawOval(x, y, 35, 25);
 		    g.drawLine(x+5, y+22, x, y+29);
