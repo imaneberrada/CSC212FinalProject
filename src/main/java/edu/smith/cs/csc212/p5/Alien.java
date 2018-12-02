@@ -15,8 +15,8 @@ public class Alien extends GFX {
 	public Alien(int row, int column ) {
 		this.row = row;
 		this.column = column;
-		this.x = column*70;
-		this.y = row*50;
+		this.x = 10+ column*70;
+		this.y = 10+ row*50;
 		this.shot = shot;
 		
 	}

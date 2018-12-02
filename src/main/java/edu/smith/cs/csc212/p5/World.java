@@ -84,6 +84,16 @@ public class World extends GFX {
 	public void draw(Graphics2D g) {
 		ImagePanel image = new ImagePanel(fileName);
 		image.paintComponent(g);
+		for ( int x = 0; x < 5; x++ ) {
+			for ( int y = 0; y <5; y++ ) {
+				Alien Alien1 = new Alien(x, y);
+				aliens.add(Alien1);
+			}
+		}
+		
+		for ( Alien Alien1 : aliens ) {
+			Alien1.draw(g);
+		}
 		
 		Player.draw(g);
 		
@@ -103,16 +113,6 @@ public class World extends GFX {
 			    }
 		}
 		
-		for ( int x = 0; x < 5; x++ ) {
-			for ( int y = 0; y <5; y++ ) {
-				Alien Alien1 = new Alien(x, y);
-				aliens.add(Alien1);
-			}
-		}
-		
-		for ( Alien Alien1 : aliens ) {
-			Alien1.draw(g);
-		}
 			
 	}
 }

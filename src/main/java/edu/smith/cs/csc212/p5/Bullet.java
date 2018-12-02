@@ -58,6 +58,7 @@ public class Bullet extends GFX {
 		g.drawString(".", x+27, y-37);
 		
 		
+		//Parameter: player's bullet/ alien's 
 		
 	}
 
