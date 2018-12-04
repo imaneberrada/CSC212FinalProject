@@ -2,6 +2,7 @@ package edu.smith.cs.csc212.p5;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,15 @@ public class Alien  {
 		//this.y = y;
 		//this.shot = shot;
 		
+	}
+	
+	public Rectangle2D getRectangle() {
+		if (( row == 3 ) || ( row == 4 )) {
+			return new Rectangle2D.Double(this.x, this.y, 30, 34);
+		}
+		else {
+		return new Rectangle2D.Double(this.x, this.y, 35, 25);
+	}
 	}
 
 	public void draw(Graphics2D g) {
@@ -78,7 +88,8 @@ public class Alien  {
 		    //g.fillArc(b, b, width, height, startAngle, arcAngle);
 		    g.fillArc(x+8, y+21, 15, 10, 180, 180);
 		}
-		
+		g.setColor(Color.red);
+		g.draw(this.getRectangle());
 		
 	}
 
