@@ -58,7 +58,7 @@ public class World extends GFX {
 	
 		if (shoot) {
 			System.out.println("shooting");
-			Bullet Bullet1 = new Bullet(Player.x);
+			Bullet Bullet1 = new Bullet(Player.x,"player");
 			System.out.println("new bullet");
 			Bullet1.shot = shoot;
 			bullets.add(Bullet1);
