@@ -2,6 +2,8 @@ package edu.smith.cs.csc212.p5;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import me.jjfoley.gfx.GFX;
 
@@ -17,16 +19,17 @@ public class Alien  {
 		this.column = column;
 		//this.x = x;
 		//this.y = y;
-		this.shot = shot;
+		//this.shot = shot;
 		
 	}
 
 	public void draw(Graphics2D g) {
+		// if we need to move, shift over
 		if ( ( World.moveAliensRight == true ) ) { 
-			x += 3;
+			x += 1;
 		}
 		if ( ( World.moveAliensLeft == true ) ) { 
-			x -= 3;
+			x -= 1;
 		}
 		
 		if (( ( row == 1 ) || ( row == 2 ) )&& ( shot == false ) ) {

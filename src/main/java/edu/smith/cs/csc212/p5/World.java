@@ -25,8 +25,10 @@ public class World extends GFX {
 	Player Player = new Player();
 	
 	List<Bullet> bullets = new ArrayList<Bullet>();
-	//List<Bullet> deleted = new ArrayList<Bullet>();
+	List<Bullet> removeBullets = new ArrayList<Bullet>();
+	
 	List<Alien> aliens = new ArrayList<Alien>();
+	List<Alien> removeAliens = new ArrayList<Alien>();
 	
 	BufferedImage backg;
 	public static boolean moveAliensRight = true;
@@ -35,6 +37,7 @@ public class World extends GFX {
 	public World() throws IOException {
 		backg = ImageIO.read(new File(fileName));
 		
+		// create 5 columns and 5 rows of aliens!
 		for ( int column = 0; column < 5; column++ ) {
 			for ( int row = 0; row <5; row++ ) {
 				Alien Alien1 = new Alien( row, column );
@@ -76,7 +79,28 @@ public class World extends GFX {
 			bullets.add(Bullet1);
 		}
 		
-		
+		// look at all of the aliens. then, look at all bullets.
+		// if a bullet gets in the rectangular area of an alien, plan to delete the bullet and alien.
+		for ( Alien Alien1 : aliens ) {
+			for ( Bullet bullet : bullets ) {
+				if ( ( bullet.x >= Alien1.x ) && ( bullet.x <= Alien1.x+35 ) && ( (bullet.y) <= Alien1.y+25 ) ) {
+					Alien1.shot = true;
+					removeBullets.add(bullet);
+					removeAliens.add(Alien1);
+				}
+			}	
+		}
+
+		// delete the bullets and aliens so they aren't drawn
+		bullets.removeAll(removeBullets);
+		removeBullets.removeAll(removeBullets);
+		aliens.removeAll(removeAliens);
+		removeAliens.removeAll(removeAliens);
+				
+				
+		// if the aliens reach the left edge, stop moving left and start moving right
+		// if they reach the right edge, start moving left
+		// move down when an edge is reached!
 		for( Alien Alien1 : aliens ) {
 			if ( ( Alien1.x <= (10)) ) {
 				moveAliensLeft = false;
@@ -113,7 +137,9 @@ public class World extends GFX {
 		
 		Player.draw(g);
 		
+		
 		for ( Bullet Bullet1 :  bullets ) {
+
 				Bullet1.draw(g);
 				
 				while(true) {
@@ -124,10 +150,9 @@ public class World extends GFX {
 			    		//shot = false;
 			    		//deleted.add(Bullet1);
 			    		break;
-			    	}
-			    	
-			    	
-			    }
+			    	}	
+			    
+			}
 		}
 			
 	}
