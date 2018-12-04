@@ -12,7 +12,7 @@ import me.jjfoley.gfx.GFX;
  * dots (different y's)
  * triangle
  */
-public class Bullet extends GFX {
+public class Bullet  {
 	public int x = 250;
 	public int y = 423;
 	
@@ -32,7 +32,6 @@ public class Bullet extends GFX {
 		this.time = time;
 	}
     
-	@Override
 	public void draw(Graphics2D g) {
 		//line
 		

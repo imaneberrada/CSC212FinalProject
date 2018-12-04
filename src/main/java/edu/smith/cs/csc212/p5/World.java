@@ -25,35 +25,20 @@ public class World extends GFX {
 	Player Player = new Player();
 	
 	List<Bullet> bullets = new ArrayList<Bullet>();
+	//List<Bullet> deleted = new ArrayList<Bullet>();
 	List<Alien> aliens = new ArrayList<Alien>();
 	
-	//ImagePanel class
-	public class ImagePanel extends JPanel {
-
-		public BufferedImage image;
-
-		public ImagePanel(String fileName) {
-			try {
-				image = ImageIO.read(new File(fileName));
-			} catch (IOException e) {
-				System.exit(-1);
-			}
-
-		}
-
-		@Override 
-		public void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			g.drawImage(image, 0, 0, this);
-		}
-
-	}
+	BufferedImage backg;
 	
-	public static void main(String[] args) {
+	public World() throws IOException {
+		backg = ImageIO.read(new File(fileName));
+	}
+
+	public static void main(String[] args) throws IOException {
 		// This is where our game will be displayed
 		GFX app = new World();
 		app.start();
-
+		
 	}
 
 	@Override
@@ -82,11 +67,15 @@ public class World extends GFX {
 	
 	@Override
 	public void draw(Graphics2D g) {
-		ImagePanel image = new ImagePanel(fileName);
-		image.paintComponent(g);
-		for ( int x = 0; x < 5; x++ ) {
-			for ( int y = 0; y <5; y++ ) {
-				Alien Alien1 = new Alien(x, y);
+		//ImagePanel image = new ImagePanel(fileName);
+		//image.paintComponent(g);
+		
+		int centerX = (this.getWidth() - backg.getWidth()) / 2;
+		g.drawImage(backg, centerX, 0, null);
+		
+		for ( int column = 0; column < 5; column++ ) {
+			for ( int row = 0; row <5; row++ ) {
+				Alien Alien1 = new Alien(column, row);
 				aliens.add(Alien1);
 			}
 		}
@@ -106,13 +95,13 @@ public class World extends GFX {
 			    	
 			    	if (Bullet1.y >=0 ) {
 			    		//shot = false;
+			    		//deleted.add(Bullet1);
 			    		break;
 			    	}
 			    	
 			    	
 			    }
 		}
-		
 			
 	}
 }

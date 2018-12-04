@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 
 import me.jjfoley.gfx.GFX;
 
-public class Player extends GFX {
+public class Player  {
 	public int x = 250;
 	public int y = 420;
 	
@@ -13,7 +13,6 @@ public class Player extends GFX {
 		// TODO Auto-generated constructor stub
 	}
  
-	@Override
 	public void draw(Graphics2D g) {
 		// TODO When shooting from player, start at x+30, y-20
 		g.setColor(Color.white);

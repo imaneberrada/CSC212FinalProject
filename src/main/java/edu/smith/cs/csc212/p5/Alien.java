@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 
 import me.jjfoley.gfx.GFX;
 
-public class Alien extends GFX {
+public class Alien  {
 	public int row;
 	public int column;
 	public int x;
@@ -21,7 +21,6 @@ public class Alien extends GFX {
 		
 	}
 
-	@Override
 	public void draw(Graphics2D g) {
 		if (( row == 1 || row == 2 ) && ( shot == false ) ) {
 		    g.setColor(Color.white);
