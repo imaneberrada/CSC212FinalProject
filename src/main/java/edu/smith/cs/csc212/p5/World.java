@@ -32,6 +32,14 @@ public class World extends GFX {
 	
 	public World() throws IOException {
 		backg = ImageIO.read(new File(fileName));
+		
+		for ( int column = 0; column < 5; column++ ) {
+			for ( int row = 0; row <5; row++ ) {
+				Alien Alien1 = new Alien(column, row);
+				aliens.add(Alien1);
+			}
+		}
+		
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -63,6 +71,8 @@ public class World extends GFX {
 			Bullet1.shot = shoot;
 			bullets.add(Bullet1);
 		}
+		
+		
 	}	
 	
 	@Override
@@ -73,12 +83,7 @@ public class World extends GFX {
 		int centerX = (this.getWidth() - backg.getWidth()) / 2;
 		g.drawImage(backg, centerX, 0, null);
 		
-		for ( int column = 0; column < 5; column++ ) {
-			for ( int row = 0; row <5; row++ ) {
-				Alien Alien1 = new Alien(column, row);
-				aliens.add(Alien1);
-			}
-		}
+		
 		
 		for ( Alien Alien1 : aliens ) {
 			Alien1.draw(g);
