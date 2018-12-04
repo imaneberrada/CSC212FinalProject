@@ -29,13 +29,17 @@ public class World extends GFX {
 	List<Alien> aliens = new ArrayList<Alien>();
 	
 	BufferedImage backg;
+	public static boolean moveAliensRight = true;
+	public static boolean moveAliensLeft = false;
 	
 	public World() throws IOException {
 		backg = ImageIO.read(new File(fileName));
 		
 		for ( int column = 0; column < 5; column++ ) {
 			for ( int row = 0; row <5; row++ ) {
-				Alien Alien1 = new Alien(column, row);
+				Alien Alien1 = new Alien( row, column );
+				Alien1.x = 10+ column*70;
+				Alien1.y = ( row-1 )*50+20;
 				aliens.add(Alien1);
 			}
 		}
@@ -73,6 +77,24 @@ public class World extends GFX {
 		}
 		
 		
+		for( Alien Alien1 : aliens ) {
+			if ( ( Alien1.x <= (10)) ) {
+				moveAliensLeft = false;
+				moveAliensRight = true;
+				for( Alien Alien2 : aliens ) {
+					Alien2.y+=10;
+				}
+				break;
+			}
+			if ( Alien1.x >= (450) ) {
+				moveAliensRight = false;
+				moveAliensLeft = true;
+				for( Alien Alien2 : aliens ) {
+					Alien2.y+=10;
+				}
+				break;
+			}
+		}
 	}	
 	
 	@Override

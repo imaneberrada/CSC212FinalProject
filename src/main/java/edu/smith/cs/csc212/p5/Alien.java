@@ -12,17 +12,24 @@ public class Alien  {
 	public int y;
 	public boolean shot = false;
 	
-	public Alien(int row, int column ) {
+	public Alien( int row, int column ) {
 		this.row = row;
 		this.column = column;
-		this.x = 10+ column*70;
-		this.y = 10+ row*50;
+		//this.x = x;
+		//this.y = y;
 		this.shot = shot;
 		
 	}
 
 	public void draw(Graphics2D g) {
-		if (( row == 1 || row == 2 ) && ( shot == false ) ) {
+		if ( ( World.moveAliensRight == true ) ) { 
+			x += 3;
+		}
+		if ( ( World.moveAliensLeft == true ) ) { 
+			x -= 3;
+		}
+		
+		if (( ( row == 1 ) || ( row == 2 ) )&& ( shot == false ) ) {
 		    g.setColor(Color.white);
 		    g.drawOval(x, y, 35, 25);
 		    g.drawLine(x+5, y+22, x, y+29);
@@ -46,7 +53,7 @@ public class Alien  {
 		    g.fillOval(x+20, y+6, 7, 7);
 		}
 		
-		if ( ( row == 3 || row == 4 ) && (shot == false )) {
+		if (( ( row == 3 ) || ( row == 4 ) )&&(shot == false )) {
 			g.setColor(Color.red.darker());
 		    g.fillOval(x, y, 10,10);
 		    g.fillOval(x+20, y, 10,10);
