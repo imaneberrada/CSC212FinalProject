@@ -7,7 +7,7 @@ import me.jjfoley.gfx.GFX;
 
 public class Player  {
 	public int x = 250;
-	public int y = 420;
+	public int y = 435;
 	
 	public Player() {
 		// TODO Auto-generated constructor stub
