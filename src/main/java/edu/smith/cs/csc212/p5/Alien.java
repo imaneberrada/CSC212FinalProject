@@ -8,7 +8,7 @@ import java.util.List;
 
 import me.jjfoley.gfx.GFX;
 
-public class Alien  {
+public class Alien extends WorldObject {
 	public int row;
 	public int column;
 	public int x;
@@ -18,6 +18,7 @@ public class Alien  {
 	public Alien( int row, int column ) {
 		this.row = row;
 		this.column = column;
+		
 		//this.x = x;
 		//this.y = y;
 		//this.shot = shot;

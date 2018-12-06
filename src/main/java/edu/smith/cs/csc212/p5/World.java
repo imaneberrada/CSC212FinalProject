@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -23,11 +24,14 @@ import me.jjfoley.gfx.GFX;
 public class World extends GFX {
 	 
 	public String fileName = "src/main/Images/SpaceInvaders.png";
-	
+	   
 	Player Player = new Player();
 	
 	List<Bullet> bullets = new ArrayList<Bullet>();
 	List<Bullet> removeBullets = new ArrayList<Bullet>();
+	
+	List<Bullet> shots = new ArrayList<Bullet>();
+	List<Bullet> removeShots = new ArrayList<Bullet>();
 	
 	static List<Alien> aliens = new ArrayList<Alien>();
 	List<Alien> removeAliens = new ArrayList<Alien>();
@@ -43,16 +47,15 @@ public class World extends GFX {
 		// create 5 columns and 5 rows of aliens!
 		for ( int column = 0; column < 5; column++ ) {
 			for ( int row = 1; row <5; row++ ) {
-				Alien Alien1 = new Alien( row, column );
+				Alien Alien1 = new Alien( row, column);
 				Alien1.x = 10+ column*70;
 				Alien1.y = ( row-1 )*50+20;
-				aliens.add(Alien1);
 				
+				aliens.add(Alien1);
 			}
 		}
 		
 	}
-	
 
 	public static void main(String[] args) throws IOException {
 		// This is where our game will be displayed
@@ -62,27 +65,43 @@ public class World extends GFX {
 
 	@Override
 	public void update(double secondsSinceLastUpdate) {
+		
 		boolean left = this.isKeyDown(KeyEvent.VK_A) || this.isKeyDown(KeyEvent.VK_LEFT);
 		boolean right = this.isKeyDown(KeyEvent.VK_D) || this.isKeyDown(KeyEvent.VK_RIGHT);
 		
+		//Player moves 
 		if (( Player.x >= 35 ) && (left) ) {
 			Player.x -= 15;
 		} else if (( Player.x <= 412 ) && ( right ) ) {
 			Player.x += 15;
 		}
+		
+		//aliens shoot with the SAME probability if size of aliens is greater than 5
+		for (Alien Alien1 : aliens) {
+			
+				Random rand = new Random();
+				int t = rand.nextInt(5000);
+				if (t <= 10 ) {
+				Bullet shot1 = new Bullet(Alien1.x, Alien1);
+				shot1.y = Alien1.y;
+				shots.add(shot1);
+				}
+		}
+		
 		// TODO add mouse click here  
 		boolean shoot = this.processKey(KeyEvent.VK_SPACE) || this.processKey(KeyEvent.VK_UP) ;//|| (this.processKey(MouseEvent.CLICK) );//&& this.processKey(KeyEvent.KEY_RELEASED));
 		
 	
 		if (shoot) {
 			//System.out.println("shooting");
-			Bullet Bullet1 = new Bullet(Player.x,"player");
+			Bullet Bullet1 = new Bullet(Player.x, Player);
 			//System.out.println("new bullet");
 			Bullet1.shot = shoot;
 			bullets.add(Bullet1);
 		}
 		
-		// look at all of the aliens. then, look at all bullets.
+		//QUESTION: SWITCH OR NOT?
+		// look at all of the bullets. then, look at all the aliens.
 		// if a bullet gets in the rectangular area of an alien, plan to delete the bullet and alien.
 		for ( Bullet bullet : bullets ) {
 		for ( Alien Alien1 : aliens ) {
@@ -140,7 +159,7 @@ public class World extends GFX {
 		for ( Alien Alien1 : aliens ) {
 			Alien1.draw(g);
 		}
-		
+		 
 		Player.draw(g);
 		
 		// draw player bullets
@@ -158,7 +177,26 @@ public class World extends GFX {
 			    
 			}
 		}
+		
+		// draw alien's bullets
+		for (Bullet shot: shots) {			
+			while (true) {
+				shot.y += 3;
+				shot.draw(g);
+				if (shot.y >= 500) {
+					removeShots.add(shot);
+					
+				}
+					break;
+				
+			}
+			
+		}
+		//removes shots that are no longer on the screen
+		shots.removeAll(removeShots);
+		removeShots.removeAll(removeShots);
 	}
+
 	
 }
 

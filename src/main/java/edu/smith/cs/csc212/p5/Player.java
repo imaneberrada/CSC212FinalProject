@@ -5,12 +5,15 @@ import java.awt.Graphics2D;
 
 import me.jjfoley.gfx.GFX;
 
-public class Player  {
+public class Player extends WorldObject  {
 	public int x = 250;
 	public int y = 420;
+	public boolean shot;
 	
 	public Player() {
-		// TODO Auto-generated constructor stub
+		this.x = x;
+		this.y = y;
+		this.shot = false;
 	}
  
 	public void draw(Graphics2D g) {
