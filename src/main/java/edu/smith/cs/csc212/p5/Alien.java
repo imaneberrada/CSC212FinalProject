@@ -90,7 +90,7 @@ public class Alien extends WorldObject {
 		    g.fillArc(x+8, y+21, 15, 10, 180, 180);
 		}
 		g.setColor(Color.red);
-		g.draw(this.getRectangle());
+		//g.draw(this.getRectangle());
 		
 	}
 

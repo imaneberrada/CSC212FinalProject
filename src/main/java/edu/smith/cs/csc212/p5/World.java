@@ -27,6 +27,7 @@ public class World extends GFX {
 	
 	static int points = 0;
 	
+	final int SPEED = 10;
 	Player Player = new Player();
 	
 	List<Defense> bunkers = new ArrayList<Defense>();
@@ -36,7 +37,7 @@ public class World extends GFX {
 	
 	List<Bullet> shots = new ArrayList<Bullet>();
 	List<Bullet> removeShots = new ArrayList<Bullet>();
-	
+		
 	static List<Alien> aliens = new ArrayList<Alien>();
 	List<Alien> removeAliens = new ArrayList<Alien>();
 	
@@ -163,7 +164,39 @@ public class World extends GFX {
 			}
 		}
 		
+		for( Bullet bullet : bullets ) {
+			for ( Defense bunker : bunkers ) {
+				if ( bunker.rectangle.contains(bullet.x,bullet.y-44)) {
+					for( int i = bunker.pixels.size()-1; i >= 0; i-- ) {
+						if( bunker.pixels.get(i).i == bullet.x ) {
+							Defense.removePixels.add(bunker.pixels.get(i));
+							removeBullets.add(bullet);
+						}
+					}
+				}
+				bunker.pixels.removeAll(Defense.removePixels);
+			}
+		}
 		
+		for( Bullet shot : shots ) {
+			for ( Defense bunker : bunkers ) {
+				if ( bunker.rectangle.contains(shot.x-15,shot.y-15)) {
+					for ( Pixel pixel1: bunker.pixels ) {
+						if( pixel1.rectangle.contains(shot.x-15,shot.y-15)) {
+							Defense.removePixels.add(pixel1);
+							removeShots.add(shot);
+						}
+					}
+				}
+				bunker.pixels.removeAll(Defense.removePixels);
+			}
+		}
+		
+		Defense.removePixels.removeAll(Defense.removePixels);
+		bullets.removeAll(removeBullets);
+		shots.removeAll(removeShots);
+		removeBullets.removeAll(removeBullets);
+		removeShots.removeAll(removeShots);
 	
 	}	
 	
@@ -198,7 +231,7 @@ public class World extends GFX {
 				
 				while(true) {
 					
-			    	Bullet1.y -= 10 ;
+			    	Bullet1.y -= SPEED ;
 			    	
 			    	if (Bullet1.y >=0 ) {
 			    		break;

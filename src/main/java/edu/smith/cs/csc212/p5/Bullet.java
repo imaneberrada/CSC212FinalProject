@@ -50,7 +50,8 @@ public class Bullet {
 		//move this to LivesTracker --before the game starts.
 		
 		if (this.shooter.getClass().equals(Alien.class)) {
-			g.setColor(Color.yellow);
+			Color purple = new Color(206, 128, 255);
+			g.setColor(purple);
 			g.fillRect(x-15,y+15,2,10);
 			
 			/*Font stringFont2 = new Font("SansSerif", Font.PLAIN, 22);
@@ -59,7 +60,7 @@ public class Bullet {
 		}
 		
 		else if (this.shooter.getClass().equals(Player.class)) {
-			 
+			
 			//Player bullets
 	 		g.setColor(Color.green);
 			g.drawLine(x, y-36, x, y-23);
