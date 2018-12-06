@@ -24,9 +24,13 @@ import me.jjfoley.gfx.GFX;
 public class World extends GFX {
 	 
 	public String fileName = "src/main/Images/SpaceInvaders.png";
-	   
+	
+	static int points = 0;
+	
 	Player Player = new Player();
 	
+	List<Defense> bunkers = new ArrayList<Defense>();
+
 	List<Bullet> bullets = new ArrayList<Bullet>();
 	List<Bullet> removeBullets = new ArrayList<Bullet>();
 	
@@ -49,11 +53,21 @@ public class World extends GFX {
 			for ( int row = 1; row <5; row++ ) {
 				Alien Alien1 = new Alien( row, column);
 				Alien1.x = 10+ column*70;
-				Alien1.y = ( row-1 )*50+20;
-				
+				Alien1.y = ( row-1 )*50+35;
 				aliens.add(Alien1);
+				
 			}
 		}
+		
+		Defense Bunker1 = new Defense(1);
+		Defense Bunker2 = new Defense(2);
+		Defense Bunker3 = new Defense(3);
+		Defense Bunker4 = new Defense(4);
+		
+		bunkers.add(Bunker1);
+		bunkers.add(Bunker2);
+		bunkers.add(Bunker3);
+		bunkers.add(Bunker4);
 		
 	}
 
@@ -109,7 +123,12 @@ public class World extends GFX {
 					Alien1.shot = true;
 					removeBullets.add(bullet);
 					removeAliens.add(Alien1);					
-					
+					if (Alien1.row == 3 || Alien1.row == 4 ) {
+						points+=10;
+					}
+					if (Alien1.row == 1 || Alien1.row == 2 ) {
+						points +=20;
+					}
 				}
 				
 			}	
@@ -154,6 +173,16 @@ public class World extends GFX {
 		int centerX = (this.getWidth() - backg.getWidth()) / 2;
 		g.drawImage(backg, centerX, 0, null);
 		
+		// points counter at top of screen
+		g.setColor(Color.white);
+		g.setFont( new Font("Arial", Font.BOLD, 20));
+		g.drawString("SCORE:", 20, 28);
+		g.drawString(Integer.toString( points ), 110, 28);
+		
+		
+		for ( Defense bunker : bunkers ) {
+			bunker.draw(g);
+		}
 		
 		// draw player
 		for ( Alien Alien1 : aliens ) {

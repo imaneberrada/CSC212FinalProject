@@ -7,8 +7,11 @@ import me.jjfoley.gfx.GFX;
 
 public class Player extends WorldObject  {
 	public int x = 250;
-	public int y = 420;
+
 	public boolean shot;
+
+	public int y = 435;
+
 	
 	public Player() {
 		this.x = x;
