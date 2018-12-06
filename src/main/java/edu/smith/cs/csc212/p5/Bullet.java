@@ -60,6 +60,8 @@ public class Bullet {
 		}
 		
 		else if (this.shooter.getClass().equals(Player.class)) {
+			//TODO: make an invisible rectangle that goes from the top of the bullet, h=speed
+			//intersect instead of contains 
 			
 			//Player bullets
 	 		g.setColor(Color.green);

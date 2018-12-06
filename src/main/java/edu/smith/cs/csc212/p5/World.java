@@ -42,6 +42,7 @@ public class World extends GFX {
 	List<Alien> removeAliens = new ArrayList<Alien>();
 	
 	BufferedImage backg;
+	int shootDelay;
 	
 	public static boolean moveAliensRight = true;
 	public static boolean moveAliensLeft = false;
@@ -106,13 +107,14 @@ public class World extends GFX {
 		// TODO add mouse click here  
 		boolean shoot = this.processKey(KeyEvent.VK_SPACE) || this.processKey(KeyEvent.VK_UP) ;//|| (this.processKey(MouseEvent.CLICK) );//&& this.processKey(KeyEvent.KEY_RELEASED));
 		
-	
-		if (shoot) {
+		shootDelay -= 1;
+		if (shoot && shootDelay <= 0) {
 			//System.out.println("shooting");
 			Bullet Bullet1 = new Bullet(Player.x, Player);
 			//System.out.println("new bullet");
 			Bullet1.shot = shoot;
 			bullets.add(Bullet1);
+			shootDelay = 20;
 		}
 		
 		//QUESTION: SWITCH OR NOT?
@@ -167,9 +169,9 @@ public class World extends GFX {
 		for( Bullet bullet : bullets ) {
 			for ( Defense bunker : bunkers ) {
 				if ( bunker.rectangle.contains(bullet.x,bullet.y-44)) {
-					for( int i = bunker.pixels.size()-1; i >= 0; i-- ) {
-						if( bunker.pixels.get(i).i == bullet.x ) {
-							Defense.removePixels.add(bunker.pixels.get(i));
+					for ( Pixel pixel1: bunker.pixels ) {
+						if( pixel1.rectangle.contains(bullet.x,bullet.y-44)) {
+							Defense.removePixels.add(pixel1);
 							removeBullets.add(bullet);
 						}
 					}
@@ -178,11 +180,15 @@ public class World extends GFX {
 			}
 		}
 		
+		while (true) {
+			
+			break;
+		}
 		for( Bullet shot : shots ) {
 			for ( Defense bunker : bunkers ) {
-				if ( bunker.rectangle.contains(shot.x-15,shot.y-15)) {
+				if ( bunker.rectangle.contains(shot.x-15,shot.y+25)) {
 					for ( Pixel pixel1: bunker.pixels ) {
-						if( pixel1.rectangle.contains(shot.x-15,shot.y-15)) {
+						if( pixel1.rectangle.contains(shot.x-15,shot.y+25)) {
 							Defense.removePixels.add(pixel1);
 							removeShots.add(shot);
 						}
@@ -192,7 +198,7 @@ public class World extends GFX {
 			}
 		}
 		
-		Defense.removePixels.removeAll(Defense.removePixels);
+		Defense.removePixels.clear();
 		bullets.removeAll(removeBullets);
 		shots.removeAll(removeShots);
 		removeBullets.removeAll(removeBullets);
@@ -240,6 +246,9 @@ public class World extends GFX {
 			}
 		}
 		
+		shots.removeAll(removeShots);
+		removeShots.removeAll(removeShots);
+		
 		// draw alien's bullets
 		for (Bullet shot: shots) {			
 			while (true) {
@@ -255,8 +264,8 @@ public class World extends GFX {
 			
 		}
 		//removes shots that are no longer on the screen
-		shots.removeAll(removeShots);
-		removeShots.removeAll(removeShots);
+		//shots.removeAll(removeShots);
+		//removeShots.removeAll(removeShots);
 	}
 
 	
