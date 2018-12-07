@@ -22,8 +22,8 @@ public class Defense {
 		this.rectangle = new Rectangle2D.Double(this.x, 350, 80, 50);
 		
 		for (int i = x+5; i<x+75; i +=4 ) {
-			for (int k = 360; k<390; k +=4 ) {
-				if ( (k>=380) && (i<=x+55) && (i>= x+25)) {
+			for (int k = 355; k<385; k +=4 ) {
+				if ( (k>=375) && (i<=x+55) && (i>= x+25)) {
 					continue;
 				}
 				Pixel pixel1 = new Pixel(i,k);

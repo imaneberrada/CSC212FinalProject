@@ -3,6 +3,8 @@ package edu.smith.cs.csc212.p5;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 
 import me.jjfoley.gfx.GFX;
 /*
@@ -15,6 +17,7 @@ import me.jjfoley.gfx.GFX;
 public class Bullet {
 	public int x;
 	public int y = 423;
+	public Rectangle2D playerRectangle;
 	
 	//public int[] xPoints = {x+20,x+30,x+40,x+20};
 	//public int[] yPoints = {y-20,y-40,y-20,y-20};
@@ -63,6 +66,8 @@ public class Bullet {
 			//TODO: make an invisible rectangle that goes from the top of the bullet, h=speed
 			//intersect instead of contains 
 			
+			//playerRectangle = new Rectangle2D.Double(x, y-40, 2, World.SPEED+20);
+
 			//Player bullets
 	 		g.setColor(Color.green);
 			g.drawLine(x, y-36, x, y-23);
@@ -70,6 +75,9 @@ public class Bullet {
 			g.drawLine(x, y-36, x-4, y-31);
 			g.drawLine(x, y-34, x+4, y-29);
 			g.drawLine(x, y-34, x-4, y-29);
+			
+			//g.setColor(Color.orange);
+			//g.draw(playerRectangle);
 			
 			/*Font stringFont = new Font( "SansSerif", Font.PLAIN, 24 );
 			g.setFont(stringFont);

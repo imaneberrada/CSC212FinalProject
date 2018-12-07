@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class World extends GFX {
 	
 	static int points = 0;
 	
-	final int SPEED = 10;
+	public static final int SPEED = 10;
 	Player Player = new Player();
 	
 	List<Defense> bunkers = new ArrayList<Defense>();
@@ -169,10 +170,12 @@ public class World extends GFX {
 		for( Bullet bullet : bullets ) {
 			for ( Defense bunker : bunkers ) {
 				if ( bunker.rectangle.contains(bullet.x,bullet.y-44)) {
-					for ( Pixel pixel1: bunker.pixels ) {
-						if( pixel1.rectangle.contains(bullet.x,bullet.y-44)) {
-							Defense.removePixels.add(pixel1);
+					Rectangle2D bulletR = new Rectangle2D.Double(bullet.x, bullet.y-34, 2, SPEED+20);
+					for( int i = bunker.pixels.size()-1; i>= 0; i-- ) {
+						if( bulletR.intersects(bunker.pixels.get(i).rectangle)) {
+							Defense.removePixels.add(bunker.pixels.get(i));
 							removeBullets.add(bullet);
+							break; 
 						}
 					}
 				}
