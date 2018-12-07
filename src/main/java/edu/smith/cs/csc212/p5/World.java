@@ -169,8 +169,8 @@ public class World extends GFX {
 		
 		for( Bullet bullet : bullets ) {
 			for ( Defense bunker : bunkers ) {
-				if ( bunker.rectangle.contains(bullet.x,bullet.y-44)) {
-					Rectangle2D bulletR = new Rectangle2D.Double(bullet.x, bullet.y-34, 2, SPEED+20);
+				if ( bunker.rectangle.contains(bullet.x,bullet.y-36)) {  
+					Rectangle2D bulletR = new Rectangle2D.Double(bullet.x, bullet.y-36, 2, SPEED+20);
 					for( int i = bunker.pixels.size()-1; i>= 0; i-- ) {
 						if( bulletR.intersects(bunker.pixels.get(i).rectangle)) {
 							Defense.removePixels.add(bunker.pixels.get(i));
