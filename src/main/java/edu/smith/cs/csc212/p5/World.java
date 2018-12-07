@@ -27,6 +27,10 @@ public class World extends GFX {
 	public String fileName = "src/main/Images/SpaceInvaders.png";
 	
 	static int points = 0;
+	static int num_lives = 3;
+	
+	//Boolean for player drawing/removal
+	public static boolean removePlayer = false;
 	
 	public static final int SPEED = 10;
 	Player Player = new Player();
@@ -78,6 +82,8 @@ public class World extends GFX {
 		// This is where our game will be displayed
 		GFX app = new World();
 		app.start();
+		
+		
 	}
 
 	@Override
@@ -88,9 +94,9 @@ public class World extends GFX {
 		
 		//Player moves 
 		if (( Player.x >= 35 ) && (left) ) {
-			Player.x -= 15;
+			Player.x -= 10;
 		} else if (( Player.x <= 412 ) && ( right ) ) {
-			Player.x += 15;
+			Player.x += 10;
 		}
 		
 		//aliens shoot with the SAME probability if size of aliens is greater than 5
@@ -183,10 +189,6 @@ public class World extends GFX {
 			}
 		}
 		
-		while (true) {
-			
-			break;
-		}
 		for( Bullet shot : shots ) {
 			for ( Defense bunker : bunkers ) {
 				if ( bunker.rectangle.contains(shot.x-15,shot.y+25)) {
@@ -199,6 +201,11 @@ public class World extends GFX {
 				}
 				bunker.pixels.removeAll(Defense.removePixels);
 			}
+			//Player disappears when shot by an alien
+			if (Player.getArc().contains(shot.x-15,shot.y+25)) {
+				removePlayer = true;
+				removeShots.add(shot);
+			}
 		}
 		
 		Defense.removePixels.clear();
@@ -206,7 +213,6 @@ public class World extends GFX {
 		shots.removeAll(removeShots);
 		removeBullets.removeAll(removeBullets);
 		removeShots.removeAll(removeShots);
-	
 	}	
 	
 	@Override
