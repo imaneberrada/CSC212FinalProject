@@ -52,6 +52,8 @@ public class World extends GFX {
 	public static boolean moveAliensRight = true;
 	public static boolean moveAliensLeft = false;
 
+	public static boolean finalState = false; 
+	
 	public World() throws IOException {
 		backg = ImageIO.read(new File(fileName));
 		
@@ -205,6 +207,7 @@ public class World extends GFX {
 			if (Player.getArc().contains(shot.x-15,shot.y+25)) {
 				removePlayer = true;
 				removeShots.add(shot);
+				finalState = true;
 			}
 		}
 		
@@ -213,6 +216,9 @@ public class World extends GFX {
 		shots.removeAll(removeShots);
 		removeBullets.removeAll(removeBullets);
 		removeShots.removeAll(removeShots);
+		
+		
+		
 	}	
 	
 	@Override
@@ -258,6 +264,7 @@ public class World extends GFX {
 		shots.removeAll(removeShots);
 		removeShots.removeAll(removeShots);
 		
+		
 		// draw alien's bullets
 		for (Bullet shot: shots) {			
 			while (true) {
@@ -275,6 +282,21 @@ public class World extends GFX {
 		//removes shots that are no longer on the screen
 		//shots.removeAll(removeShots);
 		//removeShots.removeAll(removeShots);
+		
+		if (aliens.isEmpty() ) {
+			g.setColor(Color.green);
+			g.drawString("YOU WON", 210, 250);
+			
+			
+		}
+		else if ( finalState && aliens.isEmpty()==false) {
+			g.setColor(Color.red);
+			g.drawString("YOU LOST", 210, 250);
+			
+		} 
+		else {
+			//ADD CASE: all aliens disappeared from the screen/ got to the bunkers
+		}
 	}
 
 	
