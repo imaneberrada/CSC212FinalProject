@@ -18,7 +18,7 @@ public class Defense {
 	
 	public Defense(int order) {
 		this.order = order;
-		this.x = order*120-90;
+		this.x = order*150-90;
 		this.rectangle = new Rectangle2D.Double(this.x, 350, 80, 50);
 		
 		for (int i = x+5; i<x+75; i +=4 ) {

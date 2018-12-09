@@ -28,6 +28,114 @@ public class Player extends WorldObject  {
 		return new Arc2D.Double(this.x, this.y, 60, 60, 0, 180, 0 );
 	
 	}
+	
+	public void transparent1(Graphics2D g) {
+		if(World.removePlayer == false) {
+			Color sadGreen = new Color(0f,1f,0f,.3f);
+			
+			g.setColor(Color.white);
+			g.drawLine(x+30, y, x+30, y-20);
+			g.fillOval(x+25,y-20,10,10);
+			g.drawArc(x, y, 60, 60, 0, 180);
+			g.drawOval(x+15, y+10, 30, 35);
+			g.setColor(sadGreen);
+			g.fillOval(x+15, y+10, 30, 35);
+			g.setColor(Color.black);
+			g.fillOval(x+21, y+15, 7, 7 );
+			g.fillOval(x+32, y+15, 7, 7 );
+			g.drawArc(x+25, y+23, 10, 5, 0, 180);
+		
+			
+			g.setColor(Color.gray);
+			g.fillOval(x-17, y+27, 95, 30);
+			
+			g.setColor(Color.yellow);
+			g.fillOval(x-5, y+37, 10, 10);
+			g.fillOval(x+15, y+37, 10, 10);
+			g.fillOval(x+35, y+37, 10, 10);
+			g.fillOval(x+55, y+37, 10, 10);
+			
+		}
+	}
+	
+	public void transparent2(Graphics2D g) {
+		if(World.removePlayer == false) {
+			Color sadGreen = new Color(0f,1f,0f,.6f);
+			
+			g.setColor(Color.white);
+			g.drawLine(x+30, y, x+30, y-20);
+			g.fillOval(x+25,y-20,10,10);
+			g.drawArc(x, y, 60, 60, 0, 180);
+			g.drawOval(x+15, y+10, 30, 35);
+			g.setColor(sadGreen);
+			g.fillOval(x+15, y+10, 30, 35);
+			g.setColor(Color.black);
+			g.fillOval(x+21, y+15, 7, 7 );
+			g.fillOval(x+32, y+15, 7, 7 );
+			g.drawArc(x+25, y+23, 10, 5, 0, 180);
+		
+			
+			g.setColor(Color.gray);
+			g.fillOval(x-17, y+27, 95, 30);
+			
+			g.setColor(Color.yellow);
+			g.fillOval(x-5, y+37, 10, 10);
+			g.fillOval(x+15, y+37, 10, 10);
+			g.fillOval(x+35, y+37, 10, 10);
+			g.fillOval(x+55, y+37, 10, 10);
+			
+		}
+	}
+	
+	public void transparent3(Graphics2D g) {
+		if(World.removePlayer == false) {
+			Color sadGreen = new Color(0f,1f,0f,.9f);
+			
+			g.setColor(Color.white);
+			g.drawLine(x+30, y, x+30, y-20);
+			g.fillOval(x+25,y-20,10,10);
+			g.drawArc(x, y, 60, 60, 0, 180);
+			g.drawOval(x+15, y+10, 30, 35);
+			g.setColor(sadGreen);
+			g.fillOval(x+15, y+10, 30, 35);
+			g.setColor(Color.black);
+			g.fillOval(x+21, y+15, 7, 7 );
+			g.fillOval(x+32, y+15, 7, 7 );
+			g.drawArc(x+25, y+23, 10, 5, 0, 180);
+		
+			
+			g.setColor(Color.gray);
+			g.fillOval(x-17, y+27, 95, 30);
+			
+			g.setColor(Color.yellow);
+			g.fillOval(x-5, y+37, 10, 10);
+			g.fillOval(x+15, y+37, 10, 10);
+			g.fillOval(x+35, y+37, 10, 10);
+			g.fillOval(x+55, y+37, 10, 10);
+			
+		}
+	}
+	
+	public void noPlayer (Graphics2D g) {
+		if(World.removePlayer == false) {
+			Color sadGreen = new Color(0f,1f,0f,.9f);
+			
+			g.setColor(Color.white);
+			g.drawLine(x+30, y, x+30, y-20);
+			g.fillOval(x+25,y-20,10,10);
+			g.drawArc(x, y, 60, 60, 0, 180);		
+			
+			g.setColor(Color.gray);
+			g.fillOval(x-17, y+27, 95, 30);
+			
+			g.setColor(Color.yellow);
+			g.fillOval(x-5, y+37, 10, 10);
+			g.fillOval(x+15, y+37, 10, 10);
+			g.fillOval(x+35, y+37, 10, 10);
+			g.fillOval(x+55, y+37, 10, 10);
+			
+		}
+	}
 	public void draw(Graphics2D g) {
 		// TODO When shooting from player, start at x+30, y-20
 		if(World.removePlayer == false) {
@@ -41,6 +149,7 @@ public class Player extends WorldObject  {
 			g.setColor(Color.black);
 			g.fillOval(x+21, y+18, 7, 7 );
 			g.fillOval(x+32, y+18, 7, 7 );
+		
 			
 			g.setColor(Color.gray);
 			g.fillOval(x-17, y+27, 95, 30);
