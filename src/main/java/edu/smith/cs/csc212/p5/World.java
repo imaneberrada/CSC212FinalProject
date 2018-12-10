@@ -28,6 +28,7 @@ public class World extends GFX {
 	
 	static int points = 0;
 	static int num_lives = 3;
+	LivesTracker lives = new LivesTracker();
 	
 	//Boolean for player drawing/removal
 	public static boolean removePlayer = false;
@@ -90,6 +91,9 @@ public class World extends GFX {
 
 	@Override
 	public void update(double secondsSinceLastUpdate) {
+		
+		//if(removePlayer == false) {
+			
 		
 		boolean left = this.isKeyDown(KeyEvent.VK_A) || this.isKeyDown(KeyEvent.VK_LEFT);
 		boolean right = this.isKeyDown(KeyEvent.VK_D) || this.isKeyDown(KeyEvent.VK_RIGHT);
@@ -205,7 +209,13 @@ public class World extends GFX {
 			}
 			//Player disappears when shot by an alien
 			if (Player.getArc().contains(shot.x-15,shot.y+25)) {
-				removePlayer = true;
+				
+				
+				num_lives -=1;
+				if (num_lives <=0) {
+					removePlayer = true;
+				}
+				//Player is only removed, but can still shoot/get shot
 				removeShots.add(shot);
 				finalState = true;
 			}
@@ -217,7 +227,7 @@ public class World extends GFX {
 		removeBullets.removeAll(removeBullets);
 		removeShots.removeAll(removeShots);
 		
-		
+		//}
 		
 	}	
 	
@@ -232,7 +242,9 @@ public class World extends GFX {
 		g.setFont( new Font("Arial", Font.BOLD, 20));
 		g.drawString("SCORE:", 20, 28);
 		g.drawString(Integer.toString( points ), 110, 28);
-		
+		// lives tracker
+		g.drawString("LIVES:", 310, 28);
+		lives.draw(g);
 		
 		for ( Defense bunker : bunkers ) {
 			bunker.draw(g);
@@ -290,9 +302,17 @@ public class World extends GFX {
 			
 		}
 		else if ( finalState && aliens.isEmpty()==false) {
-			g.setColor(Color.red);
-			g.drawString("YOU LOST", 210, 250);
-			
+			if (num_lives == 0) {
+				g.setColor(Color.red);
+				g.drawString("YOU LOST", 210, 250);
+			}
+			/*else {
+				g.setColor(Color.white);
+				g.fillRect(205, 220, 120, 40);
+				g.setColor(Color.black);
+				g.drawString("Play again?", 210, 250);
+		
+			}*/
 		} 
 		else {
 			//ADD CASE: all aliens disappeared from the screen/ got to the bunkers
