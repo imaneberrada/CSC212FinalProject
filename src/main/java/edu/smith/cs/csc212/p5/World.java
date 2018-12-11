@@ -92,11 +92,11 @@ public class World extends GFX {
 	 */
 	public void aliensShootAndMove() {
 		//aliens shoot with the SAME probability if size of aliens is greater than 5
-		for (Alien Alien1 : aliens) {
+		for (Alien Alien1 : aliens) {			
 			Random rand = new Random();
 			// The number of possibilities for this random number decreases when the player loses lives
 			// This means when there are fewer lives, the alien is more likely to shoot
-			int t = rand.nextInt(6000/(4-num_lives));
+			int t = rand.nextInt(9000/(4-num_lives));
 			if (t <= 10 ) {
 				Bullet shot1 = new Bullet(Alien1.x, Alien1);
 				shot1.y = Alien1.y;

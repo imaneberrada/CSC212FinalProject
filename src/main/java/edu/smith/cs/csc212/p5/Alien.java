@@ -39,6 +39,7 @@ public class Alien extends WorldObject {
 		// if we need to move, shift over
 		if ( ( World.moveAliensRight == true ) ) { 
 			x += 1;
+			//TODO: Add this.x, change it when player loses
 		}
 		if ( ( World.moveAliensLeft == true ) ) { 
 			x -= 1;
