@@ -113,7 +113,7 @@ public class World extends GFX {
 		for (Alien Alien1 : aliens) {
 			
 				Random rand = new Random();
-				int t = rand.nextInt(6000/(4-num_lives));
+				int t = rand.nextInt(9000/(4-num_lives));
 				if (t <= 10 ) {
 				Bullet shot1 = new Bullet(Alien1.x, Alien1);
 				shot1.y = Alien1.y;
