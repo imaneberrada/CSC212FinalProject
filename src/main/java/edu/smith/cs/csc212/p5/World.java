@@ -113,7 +113,7 @@ public class World extends GFX {
 		for (Alien Alien1 : aliens) {
 			
 				Random rand = new Random();
-				int t = rand.nextInt(5000);
+				int t = rand.nextInt(6000/(4-num_lives));
 				if (t <= 10 ) {
 				Bullet shot1 = new Bullet(Alien1.x, Alien1);
 				shot1.y = Alien1.y;
@@ -212,10 +212,7 @@ public class World extends GFX {
 				bunker.pixels.removeAll(Defense.removePixels);
 			}
 			//Player disappears when shot by an alien
-			if (Player.getArc().contains(shot.x-15,shot.y+25)) {
-
-				
-				
+			if (timeSinceDeath<0 && Player.getArc().contains(shot.x-15,shot.y+25)) {
 				num_lives -=1;
 				if (num_lives <=0) {
 					removePlayer = true;
@@ -283,7 +280,8 @@ public class World extends GFX {
 		
 		
 		// draw player bullets
-		for ( Bullet Bullet1 :  bullets ) {
+		if( num_lives > 0 ) {
+			for ( Bullet Bullet1 :  bullets ) {
 
 				Bullet1.draw(g);
 				
@@ -297,6 +295,7 @@ public class World extends GFX {
 			    
 			}
 		}
+		
 		
 		shots.removeAll(removeShots);
 		removeShots.removeAll(removeShots);
@@ -316,31 +315,32 @@ public class World extends GFX {
 			}
 			
 		}
+		}
 		//removes shots that are no longer on the screen
 		//shots.removeAll(removeShots);
 		//removeShots.removeAll(removeShots);
 		
-		/*if (aliens.isEmpty() ) {
+		if (aliens.isEmpty() ) {
 			g.setColor(Color.green);
 			g.drawString("YOU WON", 210, 250);
 			
 			
 		}
 
-		else if ( finalState && aliens.isEmpty()==false) {
+		/*else if ( finalState && aliens.isEmpty()==false) {
 			if (num_lives == 0) {
 				g.setColor(Color.red);
 				g.drawString("YOU LOST", 210, 250);
 			}
-			/*else {
+			else {
 				g.setColor(Color.white);
 				g.fillRect(205, 220, 120, 40);
 				g.setColor(Color.black);
 				g.drawString("Play again?", 210, 250);
 		
-			}*/
+			}}*/
 
-		/*else if ( timeSinceDeath<=0 && num_lives > 0 && finalState && aliens.isEmpty()==false) {
+		else if ( timeSinceDeath<=0 && num_lives > 0 && finalState && aliens.isEmpty()==false) {
 			timeSinceDeath = 0;
 			//g.setColor(Color.red);
 			//g.drawString("YOU LOST", 210, 250);
@@ -348,7 +348,7 @@ public class World extends GFX {
 		} 
 		else if ( finalState && timeSinceDeath>=100 && num_lives > 0 ) {
 			finalState = false;
-			num_lives --;
+			//num_lives --;
 			timeSinceDeath = -1;
 			//g.setColor(Color.red);
 			//g.drawString("YOU LOST", 210, 250);
@@ -365,10 +365,11 @@ public class World extends GFX {
 			g.drawString("YOU LOST", 210, 250);
 			//ADD CASE: all aliens disappeared from the screen/ got to the bunkers
 		}
-	}*/
+	}
 
 	
 
 	}
-}
+
+
 

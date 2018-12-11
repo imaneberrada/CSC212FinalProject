@@ -35,8 +35,8 @@ public class Defense {
 	}
 	
 	public void draw(Graphics2D g) {
-		g.setColor(Color.red);
-		g.drawRect(x, 350, 80, 50);
+		//g.setColor(Color.red);
+		//g.drawRect(x, 350, 80, 50);
 
 		for (Pixel pixel1 : pixels) {
 			pixel1.draw(g);
