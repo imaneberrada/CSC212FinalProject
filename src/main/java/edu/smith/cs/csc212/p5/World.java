@@ -14,51 +14,70 @@ import java.util.List;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-
 import com.sun.glass.events.MouseEvent;
 
 import me.jjfoley.gfx.GFX;
 
 public class World extends GFX {
 
+	//Background image
 	public String fileName = "src/main/Images/SpaceInvaders.png";
 
+	//Points: used to track scores
 	static int points = 0;
+	
+	//Player gets 3 lives that they can lose if they get shot by an alien
 	static int num_lives = 3;
 
+	//Lives: used to track lives
 	LivesTracker lives = new LivesTracker();
+	
+	//t: used for the "game over" animation
+	int t = 0;
 
-
+	//timeSinceDeath: used in "player gets shot" animation
 	static int timeSinceDeath = -1;
 
-	public static boolean removePlayer = false;
-
-	static boolean aliensWon = false;
-
-	public static final int SPEED = 10;
+	//our player!
 	Player Player = new Player();
 
+	//Arraylist of bunkers
 	List<Defense> bunkers = new ArrayList<Defense>();
 
+	//Arraylist of player bullets
 	List<Bullet> bullets = new ArrayList<Bullet>();
+	//Arraylist of player bullets to be removed
 	List<Bullet> removeBullets = new ArrayList<Bullet>();
-
+		
+	//Arraylist of alien bullets
 	List<Bullet> shots = new ArrayList<Bullet>();
+	//Arraylist of alien bullets to be removed
 	List<Bullet> removeShots = new ArrayList<Bullet>();
 
+	//bullet speed
+	public static final int SPEED = 10;
+		
+	//Arraylist of aliens
 	static List<Alien> aliens = new ArrayList<Alien>();
+	//Arraylist of aliens to be removed
 	List<Alien> removeAliens = new ArrayList<Alien>();
 
+	//Background image
 	BufferedImage backg;
+	
+	//shoot delay
 	int shootDelay;
 
+	//Setting for alien movements
 	public static boolean moveAliensRight = true;
 	public static boolean moveAliensLeft = false;
 
-	public static boolean finalState = false; 
-
-
+	//Initialize state to NormalPlay
+	State state = State.NormalPlay;
+	
+	//Boolean to draw/undraw player
+	public static boolean removePlayer = false;
+	
 	public World() throws IOException {
 		// Make background image in window
 		backg = ImageIO.read(new File(fileName));
@@ -91,7 +110,7 @@ public class World extends GFX {
 	 * Move all aliens left or right until they reach an edge, in which case move down and switch directions. 
 	 */
 	public void aliensShootAndMove() {
-		//aliens shoot with the SAME probability if size of aliens is greater than 5
+		
 		for (Alien Alien1 : aliens) {			
 			Random rand = new Random();
 			// The number of possibilities for this random number decreases when the player loses lives
@@ -184,13 +203,10 @@ public class World extends GFX {
 		GFX app = new World();
 		app.start();
 
-
 	}
 
 	@Override
 	public void update(double secondsSinceLastUpdate) {
-
-		//if(removePlayer == false) {
 
 		// Clicking the "A" and left key will move the player to the left. Clicking the "D" and right key will move the player to the right.
 		boolean left = this.isKeyDown(KeyEvent.VK_A) || this.isKeyDown(KeyEvent.VK_LEFT);
@@ -247,7 +263,7 @@ public class World extends GFX {
 				}
 
 				removeShots.add(shot);
-				finalState = true;
+				state = State.PlayerLost;
 			}
 		}
 
@@ -257,8 +273,6 @@ public class World extends GFX {
 		shots.removeAll(removeShots);
 		removeBullets.removeAll(removeBullets);
 		removeShots.removeAll(removeShots);
-
-
 
 	}	
 
@@ -288,7 +302,7 @@ public class World extends GFX {
 		for ( Alien Alien1 : aliens ) {
 			Alien1.draw(g);
 			if( Alien1.y >= 400 ) {
-				aliensWon = true;
+				state = State.AliensWon;
 			}
 		}
 
@@ -362,51 +376,87 @@ public class World extends GFX {
 		shots.removeAll(removeShots);
 		removeShots.removeAll(removeShots);
 
-		// If the player has killed all of the aliens, they won the game! 
-		if (aliens.isEmpty() ) {
+		// Displayed message depending on states: 
+		
+		switch(this.state) {
+		case PlayerWon: //Player has won!
 			g.setColor(Color.green);
 			g.drawString("YOU WON", 210, 250);
+			break;
 
+		case PlayerLost: //Player was killed (ran out of lives)
+			if (num_lives <= 0 && aliens.isEmpty()==false ) {
+				
+				if (t%50 >= 25) {
+					g.setColor(Color.red);
+					g.drawString("GAME OVER", 210, 250);
+					t++;
+				}
+				else {
+				
+				g.setColor(Color.black);
+				g.drawString("GAME OVER", 210, 250);
+				t++;
+				}
+			}
+			
+			break;
+		
+		case AliensWon: //Aliens have gotten to the bottom of the window
+			
+			if (t%50 >= 25) {
+				g.setColor(Color.red);
+				g.drawString("GAME OVER", 210, 250);
+				t++;
+			}
+			else {
+			
+			g.setColor(Color.black);
+			g.drawString("GAME OVER", 210, 250);
+			t++;
+			}
+		
+			break;
+			
+		case PlayAgain:
+			g.setColor(Color.white);
+			g.fillRect(205, 220, 120, 40);
+			g.setColor(Color.black);
+			g.drawString("Play again?", 210, 250);
+			break;
+			
+
+		default:
+			break; 
+			
+		}
+		
+		// If the player has killed all of the aliens, they won the game! 
+		if (aliens.isEmpty() ) {
+			state = State.PlayerWon;
 
 		}
 
-		/*else if ( finalState && aliens.isEmpty()==false) {
-			if (num_lives == 0) {
-				g.setColor(Color.red);
-				g.drawString("YOU LOST", 210, 250);
-			}
-			else {
-				g.setColor(Color.white);
-				g.fillRect(205, 220, 120, 40);
-				g.setColor(Color.black);
-				g.drawString("Play again?", 210, 250);
-
-			}}*/
-
-		else if ( timeSinceDeath<=0 && num_lives > 0 && finalState && aliens.isEmpty()==false) {
+		else if ( timeSinceDeath<=0 && num_lives > 0 && (state==State.PlayerLost) && aliens.isEmpty()==false) {
 			timeSinceDeath = 0;
-			//g.setColor(Color.red);
-			//g.drawString("YOU LOST", 210, 250);
+			
 
 		} 
-		else if ( finalState && timeSinceDeath>=100 && num_lives > 0 ) {
-			finalState = false;
-			//num_lives --;
+		else if ( (state==State.PlayerLost) && timeSinceDeath>=100 && num_lives > 0 ) {
+			
+			state = State.NormalPlay;
 			timeSinceDeath = -1;
-			//g.setColor(Color.red);
-			//g.drawString("YOU LOST", 210, 250);
+			
 
 		} 
-		else if ( finalState && num_lives <= 0 && aliens.isEmpty()==false ) {
+		else if ( (state==State.PlayerLost) && num_lives <= 0 && aliens.isEmpty()==false ) {
 			removePlayer = true;
-			g.setColor(Color.red);
-			g.drawString("YOU LOST", 210, 250);
+			
 
 		} 
-		else if ( aliensWon ){
-			g.setColor(Color.red);
-			g.drawString("YOU LOST", 210, 250);
-			//ADD CASE: all aliens disappeared from the screen/ got to the bunkers
+		else if ( state == State.AliensWon ){
+			removePlayer = true;
+			
 		}
 	}
 
