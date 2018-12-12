@@ -20,9 +20,11 @@ import me.jjfoley.gfx.GFX;
 
 public class World extends GFX {
 
-	//Background image
+	//Background image file
 	public String fileName = "src/main/Images/SpaceInvaders.png";
-
+	//Background image
+	BufferedImage backg;
+		
 	//Points: used to track scores
 	static int points = 0;
 	
@@ -61,9 +63,6 @@ public class World extends GFX {
 	static List<Alien> aliens = new ArrayList<Alien>();
 	//Arraylist of aliens to be removed
 	List<Alien> removeAliens = new ArrayList<Alien>();
-
-	//Background image
-	BufferedImage backg;
 	
 	//shoot delay
 	int shootDelay;
