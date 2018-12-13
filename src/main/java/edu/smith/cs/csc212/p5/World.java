@@ -43,6 +43,9 @@ public class World extends GFX {
 	//our player!
 	Player Player = new Player();
 
+	//mystery ship that passes through every once in a while
+	MysteryShip mysteryShip = new MysteryShip();
+	
 	//Arraylist of bunkers
 	List<Defense> bunkers = new ArrayList<Defense>();
 
@@ -102,7 +105,7 @@ public class World extends GFX {
 		bunkers.add(Bunker3);
 
 	}
-
+	
 	/**
 	 * Cycle through each alien in the list of aliens. 
 	 * When the number of lives decreases, aliens become more likely to shoot at the player.
@@ -149,9 +152,17 @@ public class World extends GFX {
 	 * If a bullet hits part of a bunker, it must remove the closest pixel. 
 	 */
 	public void shootAliensAndBunkers() {
+		
+		
 		// Look at all of the bullets, then look at all the aliens. Then, look at all of the bunkers.
 		for ( Bullet bullet : bullets ) {
-
+			// See if the bullet hit the rectangular area of the mystery ship
+			if( mysteryShip.getRectangle().contains(bullet.x, bullet.y)) {
+				mysteryShip.shot = true;
+				removeBullets.add(bullet);
+				points+=50;
+			}
+				
 			// If a bullet gets in the rectangular area of an alien, plan to delete the bullet and alien.
 			for ( Alien Alien1 : aliens ) {
 				if (Alien1.getRectangle().contains(bullet.x, bullet.y)) {
@@ -233,7 +244,7 @@ public class World extends GFX {
 			bullets.add(Bullet1);
 			shootDelay = 20;
 		}
-
+		
 		// Call the method that checks what the player's bullets hit
 		shootAliensAndBunkers();
 
@@ -304,7 +315,25 @@ public class World extends GFX {
 				state = State.AliensWon;
 			}
 		}
-
+		
+		// If enough time has passed, draw the mystery ship until it is shot or goes off the screen
+		if ( MysteryShip.timer <= 600 ) {
+			MysteryShip.timer++;
+		} else if ( MysteryShip.timer > 600 && MysteryShip.shot == true ) {
+			MysteryShip.timer = 0;
+			mysteryShip.x = -80;
+			MysteryShip.shot = false;
+		}
+		else if ( MysteryShip.timer > 600 && MysteryShip.shot != true ) {
+			if ( mysteryShip.x <= 500 ) {
+				mysteryShip.draw(g);
+			} else {
+				MysteryShip.timer = 0;
+				mysteryShip.x = -80;
+			}
+			
+		}
+		
 		// Draw the player depending on if it is in the animation sequence after getting shot.
 		// If the player hasn't been shot, just draw like normal
 		if( timeSinceDeath < 0 ) {
