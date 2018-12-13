@@ -33,6 +33,7 @@ public class MysteryShip {
 	 * @param g
 	 */
 	public void draw(Graphics2D g) { 
+		if(World.removePlayer == false) {
 		// Move to the right when drawing 
 		x += 3;
 
@@ -68,6 +69,8 @@ public class MysteryShip {
 
 		g.drawArc(x+9, y+23, 7, 3, 0, -180);
 		g.drawArc(x+33, y+23, 7, 3, 0, -180);
+		
+		}
 
 	}
 }
