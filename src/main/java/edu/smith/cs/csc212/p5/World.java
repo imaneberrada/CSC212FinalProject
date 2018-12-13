@@ -17,6 +17,8 @@ import javax.imageio.ImageIO;
 import me.jjfoley.gfx.GFX;
 
 /**
+ * "Space Invaders" style game by Imane Berrada and Grace Sambora
+ * 
  * Main class.
  * Game Instructions: 
  * - You are the player.
