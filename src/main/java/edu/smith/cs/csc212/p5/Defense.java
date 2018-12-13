@@ -1,12 +1,10 @@
 package edu.smith.cs.csc212.p5;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 public class Defense {
 	int order;
@@ -45,8 +43,6 @@ public class Defense {
 	 * @param g
 	 */
 	public void draw(Graphics2D g) {
-		//g.setColor(Color.red);
-		//g.drawRect(x, 350, 80, 50);
 
 		for (Pixel pixel1 : pixels) {
 			pixel1.draw(g);

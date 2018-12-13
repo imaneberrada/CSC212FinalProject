@@ -3,17 +3,17 @@ package edu.smith.cs.csc212.p5;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Arc2D;
-//import java.awt.geom.Ellipse2D;
-//import java.awt.geom.Rectangle2D;
 
 public class Player extends WorldObject  {
-
-
+	//Player's x coordinate
 	public int x = 250;
-
+	//Player's y coordinate
 	public int y = 435;
 
+	//boolean: tracks if player is shot
 	public boolean isShot;
+	
+	//arc
 	Arc2D arc;
 
 	public Player() {
@@ -21,7 +21,11 @@ public class Player extends WorldObject  {
 		this.y = y;
 		this.isShot = false;
 	}
-
+	
+	/**
+	 * Method that gets the player's white arc
+	 * @return the arc at player's position
+	 */
 	public Arc2D getArc() {
 		return new Arc2D.Double(this.x, this.y, 60, 60, 0, 180, 0 );
 

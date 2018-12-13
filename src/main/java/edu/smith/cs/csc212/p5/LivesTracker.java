@@ -3,6 +3,9 @@ package edu.smith.cs.csc212.p5;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+/**
+ * Tracks player's lives
+ */
 public class LivesTracker {
 
 	public void draw(Graphics2D g) {

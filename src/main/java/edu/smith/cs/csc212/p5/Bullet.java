@@ -6,11 +6,14 @@ import java.awt.geom.Rectangle2D;
 
 
 public class Bullet {
+	
+	//Bullet's coordinates
 	public int x;
 	public int y = 423;
-	public Rectangle2D playerRectangle;
 
 	boolean shot = false;
+	
+	//Who is the shooter?
 	public WorldObject shooter;
 
 

@@ -2,7 +2,6 @@ package edu.smith.cs.csc212.p5;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
@@ -14,9 +13,19 @@ import java.util.List;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
-import com.sun.glass.events.MouseEvent;
 
 import me.jjfoley.gfx.GFX;
+
+/**
+ * Main class.
+ * Game Instructions: 
+ * - You are the player.
+ * - Using your keyboard, you can move to the left/right and shoot aliens/mystery ships.
+ * - You get points for killing aliens.
+ * - However, aliens can also shoot you. If their bullets touch your white arc, you lose a life.
+ * - After you've been shot three times, your game will be over.
+ * - Bunkers will protect you, as long as they're there.
+ */
 
 public class World extends GFX {
 
@@ -74,28 +83,28 @@ public class World extends GFX {
 	public static boolean moveAliensRight = true;
 	public static boolean moveAliensLeft = false;
 
-	//Initialize state to NormalPlay
+	// Initialize state to NormalPlay
 	State state = State.NormalPlay;
-	
-	//Boolean to draw/undraw player
+
+	// Boolean to draw/undraw player
 	public static boolean removePlayer = false;
-	
+
 	public World() throws IOException {
 		// Make background image in window
 		backg = ImageIO.read(new File(fileName));
 
 		// Create 5 columns and 5 rows of aliens, add to the list of aliens
-		for ( int column = 0; column < 5; column++ ) {
-			for ( int row = 1; row <5; row++ ) {
-				Alien Alien1 = new Alien( row, column);
-				Alien1.x = 10+ column*70;
-				Alien1.y = ( row-1 )*50+35;
+		for (int column = 0; column < 5; column++) {
+			for (int row = 1; row < 5; row++) {
+				Alien Alien1 = new Alien(row, column);
+				Alien1.x = 10 + column * 70;
+				Alien1.y = (row - 1) * 50 + 35;
 				aliens.add(Alien1);
 
 			}
 		}
 
-		// Create 3 bunkers and add to the list of bunkers 
+		// Create 3 bunkers and add to the list of bunkers
 		Defense Bunker1 = new Defense(1);
 		Defense Bunker2 = new Defense(2);
 		Defense Bunker3 = new Defense(3);
@@ -105,41 +114,45 @@ public class World extends GFX {
 		bunkers.add(Bunker3);
 
 	}
-	
+
 	/**
-	 * Cycle through each alien in the list of aliens. 
-	 * When the number of lives decreases, aliens become more likely to shoot at the player.
-	 * Move all aliens left or right until they reach an edge, in which case move down and switch directions. 
+	 * Cycle through each alien in the list of aliens. When the number of lives
+	 * decreases, aliens become more likely to shoot at the player. Move all aliens
+	 * left or right until they reach an edge, in which case move down and switch
+	 * directions.
 	 */
 	public void aliensShootAndMove() {
-		
-		for (Alien Alien1 : aliens) {			
+
+		for (Alien Alien1 : aliens) {
 			Random rand = new Random();
-			// The number of possibilities for this random number decreases when the player loses lives
+			// The number of possibilities for this random number decreases when the player
+			// loses lives
 			// This means when there are fewer lives, the alien is more likely to shoot
-			int t = rand.nextInt(9000/(4-num_lives));
-			if (t <= 10 ) {
+			int t = rand.nextInt(9000 / (4 - num_lives));
+			if (t <= 10) {
 				Bullet shot1 = new Bullet(Alien1.x, Alien1);
 				shot1.y = Alien1.y;
 				shots.add(shot1);
 			}
 
-			// If any of the aliens reach the left side of the window, switch directions and move down by 10
-			if ( ( Alien1.x <= (10)) ) {
+			// If any of the aliens reach the left side of the window, switch directions and
+			// move down by 10
+			if ((Alien1.x <= (10))) {
 				moveAliensLeft = false;
 				moveAliensRight = true;
-				for( Alien Alien2 : aliens ) {
-					Alien2.y+=10;
+				for (Alien Alien2 : aliens) {
+					Alien2.y += 10;
 				}
 				break;
 			}
 
-			// If any of the aliens reach the right side of the window, switch directions and move down by 10
-			if ( Alien1.x >= (450) ) {
+			// If any of the aliens reach the right side of the window, switch directions
+			// and move down by 10
+			if (Alien1.x >= (450)) {
 				moveAliensRight = false;
 				moveAliensLeft = true;
-				for( Alien Alien2 : aliens ) {
-					Alien2.y+=10;
+				for (Alien Alien2 : aliens) {
+					Alien2.y += 10;
 				}
 				break;
 			}
@@ -147,54 +160,59 @@ public class World extends GFX {
 	}
 
 	/**
-	 * This method tracks player bullets. If a bullet hits anything, it must be deleted from the list of bullets.
-	 * If a bullet hits an alien, then the alien must be removed. 
-	 * If a bullet hits part of a bunker, it must remove the closest pixel. 
+	 * This method tracks player bullets. If a bullet hits anything, it must be
+	 * deleted from the list of bullets. If a bullet hits an alien, then the alien
+	 * must be removed. If a bullet hits part of a bunker, it must remove the
+	 * closest pixel.
 	 */
 	public void shootAliensAndBunkers() {
-		
-		
-		// Look at all of the bullets, then look at all the aliens. Then, look at all of the bunkers.
-		for ( Bullet bullet : bullets ) {
+
+		// Look at all of the bullets, then look at all the aliens. Then, look at all of
+		// the bunkers.
+		for (Bullet bullet : bullets) {
 			// See if the bullet hit the rectangular area of the mystery ship
-			if( mysteryShip.getRectangle().contains(bullet.x, bullet.y)) {
+			if (mysteryShip.getRectangle().contains(bullet.x, bullet.y)) {
 				mysteryShip.shot = true;
 				removeBullets.add(bullet);
-				points+=50;
+				points += 50;
 			}
-				
-			// If a bullet gets in the rectangular area of an alien, plan to delete the bullet and alien.
-			for ( Alien Alien1 : aliens ) {
+
+			// If a bullet gets in the rectangular area of an alien, plan to delete the
+			// bullet and alien.
+			for (Alien Alien1 : aliens) {
 				if (Alien1.getRectangle().contains(bullet.x, bullet.y)) {
 					Alien1.shot = true;
 					removeBullets.add(bullet);
 					removeAliens.add(Alien1);
 					// If the player hits an alien from the bottom two rows, they get 10 points.
-					if (Alien1.row == 3 || Alien1.row == 4 ) {
-						points+=10;
+					if (Alien1.row == 3 || Alien1.row == 4) {
+						points += 10;
 					}
 					// If the player hits an alien from the top two rows, they get 20 points.
-					if (Alien1.row == 1 || Alien1.row == 2 ) {
-						points +=20;
+					if (Alien1.row == 1 || Alien1.row == 2) {
+						points += 20;
 					}
 				}
-			}	
+			}
 
-			//If the bullet enters the rectangular area of a bunker, check all of the pixels in the bunker.
-			for ( Defense bunker : bunkers ) {
-				if ( bunker.rectangle.contains(bullet.x,bullet.y-36)) {  
-					// Make a rectangle for the bullet that predicts where the bullet will go so it won't skip over any pixels because of speed.
-					Rectangle2D bulletR = new Rectangle2D.Double(bullet.x, bullet.y-36, 2, SPEED+20);
-					// Look through the bunker pixels backwards so the lowest pixel that the bullet touches gets removed.
-					for( int i = bunker.pixels.size()-1; i>= 0; i-- ) {
-						if( bulletR.intersects(bunker.pixels.get(i).rectangle)) {
+			// If the bullet enters the rectangular area of a bunker, check all of the
+			// pixels in the bunker.
+			for (Defense bunker : bunkers) {
+				if (bunker.rectangle.contains(bullet.x, bullet.y - 36)) {
+					// Make a rectangle for the bullet that predicts where the bullet will go so it
+					// won't skip over any pixels because of speed.
+					Rectangle2D bulletR = new Rectangle2D.Double(bullet.x, bullet.y - 36, 2, SPEED + 20);
+					// Look through the bunker pixels backwards so the lowest pixel that the bullet
+					// touches gets removed.
+					for (int i = bunker.pixels.size() - 1; i >= 0; i--) {
+						if (bulletR.intersects(bunker.pixels.get(i).rectangle)) {
 							Defense.removePixels.add(bunker.pixels.get(i));
 							removeBullets.add(bullet);
-							break; 
+							break;
 						}
 					}
 				}
-				//Remove the hit bunker pixels
+				// Remove the hit bunker pixels
 				bunker.pixels.removeAll(Defense.removePixels);
 			}
 		}
@@ -206,8 +224,6 @@ public class World extends GFX {
 		removeAliens.removeAll(removeAliens);
 	}
 
-
-
 	public static void main(String[] args) throws IOException {
 		// This is where our game will be displayed
 		GFX app = new World();
@@ -218,14 +234,16 @@ public class World extends GFX {
 	@Override
 	public void update(double secondsSinceLastUpdate) {
 
-		// Clicking the "A" and left key will move the player to the left. Clicking the "D" and right key will move the player to the right.
+		// Clicking the "A" and left key will move the player to the left. Clicking the
+		// "D" and right key will move the player to the right.
 		boolean left = this.isKeyDown(KeyEvent.VK_A) || this.isKeyDown(KeyEvent.VK_LEFT);
 		boolean right = this.isKeyDown(KeyEvent.VK_D) || this.isKeyDown(KeyEvent.VK_RIGHT);
 
-		// Player moves according to the keys pressed if it hasn't reached the edge of the screen
-		if (( Player.x >= 35 ) && (left) ) {
+		// Player moves according to the keys pressed if it hasn't reached the edge of
+		// the screen
+		if ((Player.x >= 35) && (left)) {
 			Player.x -= 10;
-		} else if (( Player.x <= 412 ) && ( right ) ) {
+		} else if ((Player.x <= 412) && (right)) {
 			Player.x += 10;
 		}
 
@@ -233,42 +251,45 @@ public class World extends GFX {
 		aliensShootAndMove();
 
 		// Clicking the space bar or up key will make the player shoot upwards.
-		boolean shoot = this.processKey(KeyEvent.VK_SPACE) || this.processKey(KeyEvent.VK_UP) ;
+		boolean shoot = this.processKey(KeyEvent.VK_SPACE) || this.processKey(KeyEvent.VK_UP);
 
 		// Establish a shoot delay so the player can't spam the window with bullets.
-		// Only shoot when the shoot delay has finished and the player hasn't been shot recently
+		// Only shoot when the shoot delay has finished and the player hasn't been shot
+		// recently
 		shootDelay -= 1;
-		if ( timeSinceDeath< 0 && shoot && shootDelay <= 0) {
+		if (timeSinceDeath < 0 && shoot && shootDelay <= 0) {
 			Bullet Bullet1 = new Bullet(Player.x, Player);
 			Bullet1.shot = shoot;
 			bullets.add(Bullet1);
 			shootDelay = 20;
 		}
-		
+
 		// Call the method that checks what the player's bullets hit
 		shootAliensAndBunkers();
 
 		// Check what the alien shots hit
-		for( Bullet shot : shots ) {
-			// If the alien shot enters the rectangle surrounding a bunker, 
-			// Look through all of the bunker pixels and remove the one that the shot has hit.
-			for ( Defense bunker : bunkers ) {
-				if ( bunker.rectangle.contains(shot.x-15,shot.y+25)) {
-					for ( Pixel pixel1: bunker.pixels ) {
-						if( pixel1.rectangle.contains(shot.x-15,shot.y+25)) {
+		for (Bullet shot : shots) {
+			// If the alien shot enters the rectangle surrounding a bunker,
+			// Look through all of the bunker pixels and remove the one that the shot has
+			// hit.
+			for (Defense bunker : bunkers) {
+				if (bunker.rectangle.contains(shot.x - 15, shot.y + 25)) {
+					for (Pixel pixel1 : bunker.pixels) {
+						if (pixel1.rectangle.contains(shot.x - 15, shot.y + 25)) {
 							Defense.removePixels.add(pixel1);
 							removeShots.add(shot);
 						}
 					}
 				}
 				bunker.pixels.removeAll(Defense.removePixels);
-			} 
-			// If the shot enters the player's spaceship and the player hasn't been shot recently, decrease the number of remaining lives
+			}
+			// If the shot enters the player's spaceship and the player hasn't been shot
+			// recently, decrease the number of remaining lives
 			// finalState becomes true, so the game endings happen if needed
 			// If the player has no lives left, remove it entirely
-			if (timeSinceDeath<0 && Player.getArc().contains(shot.x-15,shot.y+25)) {
-				num_lives -=1;
-				if (num_lives <=0) {
+			if (timeSinceDeath < 0 && Player.getArc().contains(shot.x - 15, shot.y + 25)) {
+				num_lives -= 1;
+				if (num_lives <= 0) {
 					removePlayer = true;
 				}
 
@@ -284,92 +305,96 @@ public class World extends GFX {
 		removeBullets.removeAll(removeBullets);
 		removeShots.removeAll(removeShots);
 
-	}	
+	}
 
 	@Override
 	public void draw(Graphics2D g) {
-		// Find the center of the window, and then draw the selected background image every time
+		// Find the center of the window, and then draw the selected background image
+		// every time
 		int centerX = (this.getWidth() - backg.getWidth()) / 2;
 		g.drawImage(backg, centerX, 0, null);
 
 		// Set a points counter at top of screen
 		g.setColor(Color.white);
-		g.setFont( new Font("Arial", Font.BOLD, 20));
+		g.setFont(new Font("Arial", Font.BOLD, 20));
 		g.drawString("SCORE:", 20, 28);
-		g.drawString(Integer.toString( points ), 110, 28);
+		g.drawString(Integer.toString(points), 110, 28);
 
 		// Draw the lives tracker
 		g.drawString("LIVES:", 310, 28);
 		lives.draw(g);
 
 		// Draw all of the bunkers
-		for ( Defense bunker : bunkers ) {
+		for (Defense bunker : bunkers) {
 			bunker.draw(g);
 		}
 
-		// Draw all of the aliens. 
-		// If an alien has gotten to the bottom portion of the screen, aliensWon is true, which will cause one of the game endings
-		for ( Alien Alien1 : aliens ) {
+		// Draw all of the aliens.
+		// If an alien has gotten to the bottom portion of the screen, aliensWon is
+		// true, which will cause one of the game endings
+		for (Alien Alien1 : aliens) {
 			Alien1.draw(g);
-			if( Alien1.y >= 400 ) {
+			if (Alien1.y >= 400) {
 				state = State.AliensWon;
 			}
 		}
-		
-		// If enough time has passed, draw the mystery ship until it is shot or goes off the screen
-		if ( MysteryShip.timer <= 600 ) {
+
+		// If enough time has passed, draw the mystery ship until it is shot or goes off
+		// the screen
+		if (MysteryShip.timer <= 600) {
 			MysteryShip.timer++;
-		} else if ( MysteryShip.timer > 600 && MysteryShip.shot == true ) {
+		} else if (MysteryShip.timer > 600 && MysteryShip.shot == true) {
 			MysteryShip.timer = 0;
 			mysteryShip.x = -80;
 			MysteryShip.shot = false;
-		}
-		else if ( MysteryShip.timer > 600 && MysteryShip.shot != true ) {
-			if ( mysteryShip.x <= 500 ) {
+		} else if (MysteryShip.timer > 600 && MysteryShip.shot != true) {
+			if (mysteryShip.x <= 500) {
 				mysteryShip.draw(g);
 			} else {
 				MysteryShip.timer = 0;
 				mysteryShip.x = -80;
 			}
-			
+
 		}
-		
-		// Draw the player depending on if it is in the animation sequence after getting shot.
+
+		// Draw the player depending on if it is in the animation sequence after getting
+		// shot.
 		// If the player hasn't been shot, just draw like normal
-		if( timeSinceDeath < 0 ) {
+		if (timeSinceDeath < 0) {
 			Player.draw(g);
-		} 
-		// If the player has been shot, check the amount of time that has passed since the shot.
-		// Then, draw a more transparent version of the player when more time has passed.
-		else if( timeSinceDeath >= 50 ) {
+		}
+		// If the player has been shot, check the amount of time that has passed since
+		// the shot.
+		// Then, draw a more transparent version of the player when more time has
+		// passed.
+		else if (timeSinceDeath >= 50) {
 			Player.noPlayer(g);
 			timeSinceDeath++;
-		} else if( timeSinceDeath >= 40 ) {
+		} else if (timeSinceDeath >= 40) {
 			Player.transparent3(g);
 			timeSinceDeath++;
-		} else if( timeSinceDeath >= 20 ) {
+		} else if (timeSinceDeath >= 20) {
 			Player.transparent2(g);
 			timeSinceDeath++;
-		} else if( timeSinceDeath >= 0 ) {
+		} else if (timeSinceDeath >= 0) {
 			Player.transparent1(g);
 			timeSinceDeath++;
 		}
 
-
-		// Draw player bullets and make them move upwards with speed. 
-		if( num_lives > 0 ) {
-			for ( Bullet Bullet1 :  bullets ) {
+		// Draw player bullets and make them move upwards with speed.
+		if (num_lives > 0) {
+			for (Bullet Bullet1 : bullets) {
 
 				Bullet1.draw(g);
 
-				while(true) {
+				while (true) {
 
-					Bullet1.y -= SPEED ;
-					if ( Bullet1.y<0 ) {
+					Bullet1.y -= SPEED;
+					if (Bullet1.y < 0) {
 						removeBullets.add(Bullet1);
 						break;
 					}
-					if (Bullet1.y >=0 ) {
+					if (Bullet1.y >= 0) {
 						break;
 					}
 
@@ -384,9 +409,8 @@ public class World extends GFX {
 			shots.removeAll(removeShots);
 			removeShots.removeAll(removeShots);
 
-
 			// draw alien's bullets
-			for (Bullet shot: shots) {			
+			for (Bullet shot : shots) {
 				while (true) {
 					shot.y += 3;
 					shot.draw(g);
@@ -397,100 +421,79 @@ public class World extends GFX {
 				}
 			}
 
-
-
 		}
 		// Remove shots that are no longer on the screen
 		shots.removeAll(removeShots);
 		removeShots.removeAll(removeShots);
 
-		// Displayed message depending on states: 
-		
-		switch(this.state) {
-		case PlayerWon: //Player has won!
+		// Displayed message depending on states:
+
+		switch (this.state) {
+		case PlayerWon: // Player has won!
 			g.setColor(Color.green);
 			g.drawString("YOU WON", 210, 250);
 			break;
 
-		case PlayerLost: //Player was killed (ran out of lives)
-			if (num_lives <= 0 && aliens.isEmpty()==false ) {
-				
-				if (t%50 >= 25) {
+		case PlayerLost: // Player was killed (ran out of lives)
+			if (num_lives <= 0 && aliens.isEmpty() == false) {
+
+				if (t % 30 >= 15) {
 					g.setColor(Color.red);
-					g.drawString("GAME OVER", 210, 250);
-					t++;
+					
+				} else {
+					g.setColor(Color.black);
 				}
-				else {
 				
-				g.setColor(Color.black);
 				g.drawString("GAME OVER", 210, 250);
 				t++;
-				}
+
 			}
-			
+
 			break;
-		
-		case AliensWon: //Aliens have gotten to the bottom of the window
-			
-			if (t%50 >= 25) {
+
+		case AliensWon: // Aliens have gotten to the bottom of the window
+
+			if (t % 30 >= 15) {
 				g.setColor(Color.red);
-				g.drawString("GAME OVER", 210, 250);
-				t++;
+			} else {
+				g.setColor(Color.black);
 			}
-			else {
-			
-			g.setColor(Color.black);
-			g.drawString("GAME OVER", 210, 250);
+			g.drawString("Aliens won", 210, 250);
 			t++;
-			}
-		
+
 			break;
-			
-		case PlayAgain:
-			g.setColor(Color.white);
-			g.fillRect(205, 220, 120, 40);
-			g.setColor(Color.black);
-			g.drawString("Play again?", 210, 250);
-			break;
-			
 
 		default:
-			break; 
-			
+			break;
+
 		}
-		
-		// If the player has killed all of the aliens, they won the game! 
-		if (aliens.isEmpty() ) {
+
+		// If the player has killed all of the aliens, they won the game!
+		if (aliens.isEmpty()) {
 			state = State.PlayerWon;
 
 		}
 
-		else if ( timeSinceDeath<=0 && num_lives > 0 && (state==State.PlayerLost) && aliens.isEmpty()==false) {
+		//Player was shot but they still have more than one life -- animation 
+		
+		else if (timeSinceDeath <= 0 && num_lives > 0 && (state == State.PlayerLost) && aliens.isEmpty() == false) {
 			timeSinceDeath = 0;
-			
 
-		} 
-		else if ( (state==State.PlayerLost) && timeSinceDeath>=100 && num_lives > 0 ) {
-			
+		
+		} else if ((state == State.PlayerLost) && timeSinceDeath >= 100 && num_lives > 0) {
+
 			state = State.NormalPlay;
 			timeSinceDeath = -1;
-			
 
-		} 
-		else if ( (state==State.PlayerLost) && num_lives <= 0 && aliens.isEmpty()==false ) {
+		} else if ((state == State.PlayerLost) && num_lives <= 0 && aliens.isEmpty() == false) {
 			removePlayer = true;
-			
 
-		} 
-		else if ( state == State.AliensWon ){
+		}
+		// If aliens have gotten to the bottom of the window, then won!
+		else if (state == State.AliensWon) {
 			removePlayer = true;
-			
+
 		}
 	}
 
-
-
 }
-
-
-
