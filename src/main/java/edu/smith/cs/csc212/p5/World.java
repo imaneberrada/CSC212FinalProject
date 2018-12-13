@@ -339,24 +339,27 @@ public class World extends GFX {
 			}
 		}
 
+		// Only draw the mysteryship if it is during normal gameplay
 		// If enough time has passed, draw the mystery ship until it is shot or goes off
 		// the screen
-		if (MysteryShip.timer <= 600) {
-			MysteryShip.timer++;
-		} else if (MysteryShip.timer > 600 && MysteryShip.shot == true) {
-			MysteryShip.timer = 0;
-			mysteryShip.x = -80;
-			MysteryShip.shot = false;
-		} else if (MysteryShip.timer > 600 && MysteryShip.shot != true) {
-			if (mysteryShip.x <= 500) {
-				mysteryShip.draw(g);
-			} else {
+		if (state == State.NormalPlay) {
+			if (MysteryShip.timer <= 600) {
+				MysteryShip.timer++;
+			} else if (MysteryShip.timer > 600 && MysteryShip.shot == true) {
 				MysteryShip.timer = 0;
 				mysteryShip.x = -80;
+				MysteryShip.shot = false;
+			} else if (MysteryShip.timer > 600 && MysteryShip.shot != true) {
+				if (mysteryShip.x <= 500) {
+					mysteryShip.draw(g);
+				} else {
+					MysteryShip.timer = 0;
+					mysteryShip.x = -80;
+				}
+
 			}
-
 		}
-
+		
 		// Draw the player depending on if it is in the animation sequence after getting
 		// shot.
 		// If the player hasn't been shot, just draw like normal
